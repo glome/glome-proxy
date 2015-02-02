@@ -41,6 +41,9 @@ server = serverType.createServer (req, res) ->
       continue
     headers[k] = v
   
+  # Add Glome proxy server identifier
+  headers["X-Glome-Proxy"] = config.application.uid
+  
   # Proxy request options
   options =
     host: config.api.host
@@ -83,4 +86,4 @@ server = serverType.createServer (req, res) ->
       res.end(proxyData)
     
 server.listen config.proxy.port
-console.log 'This server listens to port', config.proxy.port
+console.log 'Glome proxy server is now listening to port', config.proxy.port
