@@ -1,0 +1,15 @@
+{
+  "application": {
+    "apikey": "",
+    "uid": ""
+  },
+  "api": {
+    "host": "api.glome.me",
+    "port": 443,
+    "ssl": true
+  },
+  "proxy": {
+    "port": 80
+    "ssl": false
+  }
+}
