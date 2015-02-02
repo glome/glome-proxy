@@ -1,0 +1,15 @@
+{
+  "application": {
+    "apikey": "a46e15b65340a5eadd02a75cebb44ba6",
+    "uid": "me.glome.web.wallet"
+  },
+  "api": {
+    "host": "api.glome.me",
+    "port": 443,
+    "ssl": true
+  },
+  "proxy": {
+    "port": 8000
+    "ssl": false
+  }
+}
