@@ -24,6 +24,7 @@ server = serverType.createServer (req, res) ->
   console.log 'Request received', req.method, req.url
   data = ''
   headers = {}
+  method = req.method
   
   url = req.url
   
@@ -49,13 +50,13 @@ server = serverType.createServer (req, res) ->
     host: config.api.host
     path: url
     port: config.api.port
-    method: req.method
+    method: method.toUpperCase()
     headers: headers
   
   req.on 'data', (chunk) ->
     data += chunk
     return
-    
+  
   req.on 'end', ->
     if req.method isnt 'GET' and req.method isnt 'DELETE'
       if data
@@ -63,11 +64,29 @@ server = serverType.createServer (req, res) ->
       else
         data = serializedParams
     
+    options.body = data
+    
+    # Headers as a string
+    h = ''
+    
+    for k, v of headers
+      h += " -H '#{k}: #{v}'"
+    
+    if config.proxy.ssl
+      q = 'https'
+    else
+      q = 'http'
+    
+    console.log "curl #{q}://#{options.host}:#{options.port}#{url} -X #{method}#{h} --data '#{data}'"
+    
     # Response for the recipient
     if config.api.ssl
-      https.request(options, callback).end()
+      r = https.request(options, callback)
     else
-      http.request(options, callback).end()
+      r = http.request(options, callback)
+    
+    r.write data
+    r.end()
   
   # HTTP request callback
   callback = (proxyReq, proxyRes) ->
