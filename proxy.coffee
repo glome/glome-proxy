@@ -72,7 +72,7 @@ server = serverType.createServer (req, res) ->
     for k, v of headers
       h += " -H '#{k}: #{v}'"
     
-    if config.proxy.ssl
+    if config.api.ssl
       q = 'https'
     else
       q = 'http'
